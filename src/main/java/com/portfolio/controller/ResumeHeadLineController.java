@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.portfolio.entity.ResumeHeadline;
-import com.portfolio.request.dto.ResumeHeadlineDto;
+import com.portfolio.request.dto.ResumeHeadlineRequestDto;
 import com.portfolio.service.ResumeHeadLineService;
 
 
@@ -24,7 +24,7 @@ public class ResumeHeadLineController {
 	}
 	
 	@PutMapping("/addHeadline")
-	public HttpEntity<ResumeHeadline> updateHeadLine(@RequestBody ResumeHeadlineDto requestDto) {
+	public HttpEntity<ResumeHeadline> updateHeadLine(@RequestBody ResumeHeadlineRequestDto requestDto) {
 		String headline = requestDto.getHeadLine();
 		return resumeService.updateResumeHeadline(headline);
 	}
