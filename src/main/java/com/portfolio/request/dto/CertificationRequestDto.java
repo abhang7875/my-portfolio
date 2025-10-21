@@ -1,5 +1,7 @@
 package com.portfolio.request.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.validation.constraints.NotNull;
@@ -17,8 +19,12 @@ public class CertificationRequestDto {
 	
 	private String issuedBy;
 	
-	private String isssueDate;
+	private String issueDate;
 	
 	private int id;
+	
+	private MultipartFile logoImage;
+	
+	private MultipartFile certificateImage;
 	
 }

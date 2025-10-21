@@ -20,6 +20,12 @@ public class Certifications {
 	private String name;
 	
 	@Column
+	private String logoPath;
+	
+	@Column
+	private String certificatePath;
+	
+	@Column
 	private String description;
 	
 	@Column
