@@ -16,7 +16,7 @@ public class ResumeHeadline {
 	@GeneratedValue
 	private int id;
 	
-	@Column
+	@Column(columnDefinition = "TEXT")
 	private String headline;
 	
 	@Column

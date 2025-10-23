@@ -36,20 +36,22 @@ public class SocialMediaProfilesServiceImpl implements SocialMediaProfilesServic
 			String socialMediaName = dto.getName();
 			String socialMediaUrl = dto.getUrl();
 			MultipartFile socialMediaLogo = dto.getImage();
-			String imagePath = logoPath + socialMediaLogo.getOriginalFilename();
 			SimpleDateFormat format = new SimpleDateFormat(dateTimeFormat);
 
-			Path uploadPath = Paths.get(logoPath);
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
+			if(socialMediaLogo != null) {
+				String imagePath = logoPath + socialMediaLogo.getOriginalFilename();
+				Path uploadPath = Paths.get(logoPath);
+				if (!Files.exists(uploadPath)) {
+					Files.createDirectories(uploadPath);
+				}
+	
+				socialMediaLogo.transferTo(Paths.get(imagePath));
 			}
-
-			socialMediaLogo.transferTo(Paths.get(imagePath));
 
 			SocialMediaProfiles profile = new SocialMediaProfiles();
 			profile.setName(socialMediaName);
 			profile.setUrl(socialMediaUrl);
-			profile.setImagePath(imagePath);
+			if(socialMediaLogo != null) profile.setImagePath(socialMediaLogo.getOriginalFilename());
 			profile.setCreatedAt(Long.valueOf(format.format(new Date())));
 			profile.setLastUpdatedAt(Long.valueOf(format.format(new Date())));
 
@@ -85,18 +87,20 @@ public class SocialMediaProfilesServiceImpl implements SocialMediaProfilesServic
 			String socialMediaName = dto.getName();
 			String socialMediaUrl = dto.getUrl();
 			MultipartFile socialMediaLogo = dto.getImage();
-			String imagePath = logoPath + socialMediaLogo.getOriginalFilename();
 			SimpleDateFormat format = new SimpleDateFormat(dateTimeFormat);
-
-			Path uploadPath = Paths.get(logoPath);
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
+			
+			if(socialMediaLogo != null) {
+				String imagePath = logoPath + socialMediaLogo.getOriginalFilename();
+				Path uploadPath = Paths.get(logoPath);
+				if (!Files.exists(uploadPath)) {
+					Files.createDirectories(uploadPath);
+				}
+				socialMediaLogo.transferTo(Paths.get(imagePath));
 			}
 
-			socialMediaLogo.transferTo(Paths.get(imagePath));
 			myProfile.setName(socialMediaName);
 			myProfile.setUrl(socialMediaUrl);
-			myProfile.setImagePath(imagePath);
+			if(socialMediaLogo != null) myProfile.setImagePath(socialMediaLogo.getOriginalFilename());
 			myProfile.setLastUpdatedAt(Long.valueOf(format.format(new Date())));
 
 			socialMediaManager.save(myProfile);

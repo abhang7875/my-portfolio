@@ -3,6 +3,7 @@ package com.portfolio.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,13 +14,14 @@ import com.portfolio.service.ResumeHeadLineService;
 
 
 @Controller
+@CrossOrigin(origins = "http://localhost:3000")
 public class ResumeHeadLineController {
 	
 	@Autowired
-	ResumeHeadLineService resumeService;
+	ResumeHeadLineService resumeService;	
 	
 	@GetMapping("/headline")
-	public HttpEntity<String> getHeadline() {
+	public HttpEntity<ResumeHeadlineRequestDto> getHeadline() {
 		return resumeService.getHeadline();
 	}
 	

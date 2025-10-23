@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.portfolio.entity.ResumeHeadline;
 import com.portfolio.repository.ResumeHeadlineDAO;
+import com.portfolio.request.dto.ResumeHeadlineRequestDto;
 import com.portfolio.service.ResumeHeadLineService;
 
 @Service
@@ -41,11 +42,12 @@ public class ResumeHeadLineServiceImpl implements ResumeHeadLineService{
 	}
 	
 	@Override
-	public ResponseEntity<String> getHeadline() {
+	public ResponseEntity<ResumeHeadlineRequestDto> getHeadline() {
 		List<ResumeHeadline> records = resumeManager.findAll();
-		if(records.isEmpty()) return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
-		
-		return new ResponseEntity<String>(records.get(0).getHeadline(), HttpStatus.OK);
+		if(records.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		ResumeHeadlineRequestDto dto = new ResumeHeadlineRequestDto();
+		dto.setHeadLine(records.get(0).getHeadline());
+		return new ResponseEntity<ResumeHeadlineRequestDto>(dto, HttpStatus.OK);
 	}
 
 }
