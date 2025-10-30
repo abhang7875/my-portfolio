@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,24 +20,25 @@ import com.portfolio.service.CategoryService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/category")
 public class CategoryController {
 	
 	@Autowired
     private CategoryService categoryService;
 
-    @PostMapping("/addCategory")
+    @PostMapping("/add")
     public ResponseEntity<Category> addCategory(@RequestParam String name) {
         Category category = categoryService.addCategory(name);
         return ResponseEntity.ok(category);
     }
 
-    @PutMapping("/updateCategory/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestParam String name) {
         Category category = categoryService.updateCategory(id, name);
         return ResponseEntity.ok(category);
     }
 
-    @DeleteMapping("/deleteCategory/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable int id) {
         if (categoryService.deleteCategory(id)) {
             return ResponseEntity.ok("Category deleted successfully");
@@ -44,12 +46,12 @@ public class CategoryController {
         return ResponseEntity.badRequest().body("Category not found");
     }
 
-    @GetMapping("/getAllCategories")
+    @GetMapping("/view")
     public ResponseEntity<List<CategoryResponseDto>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
-    @GetMapping("/getCategoryById/{id}")
+    @GetMapping("/view/{id}")
     public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable int id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }

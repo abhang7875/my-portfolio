@@ -2,12 +2,16 @@ package com.portfolio.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.portfolio.entity.Experience;
 import com.portfolio.entity.Projects;
+import com.portfolio.repository.ExperienceDAO;
 import com.portfolio.repository.ProjectDAO;
+import com.portfolio.response.dto.ProjectResponseDto;
 import com.portfolio.service.ProjectsService;
 
 @Service
@@ -15,6 +19,9 @@ public class ProjectsServiceImpl implements ProjectsService{
 	
 	@Autowired
 	ProjectDAO projectsManager;
+	
+	@Autowired
+	ExperienceDAO experienceManager;
 	
 	@Override
 	public boolean addProject(Projects project) {
@@ -42,13 +49,33 @@ public class ProjectsServiceImpl implements ProjectsService{
 	}
 
 	@Override
-	public List<Projects> getProjectsByOrganisationId(int organisationId) {
-		return projectsManager.findByOrganisationId(organisationId);
+	public List<ProjectResponseDto> getProjectsByOrganisationId(int organisationId) {
+		List<Projects> projects =  projectsManager.findByOrganisationId(organisationId);;
+		return projects.stream().map((project) -> {
+			ProjectResponseDto dto = new ProjectResponseDto();
+			dto.setId(project.getId());
+			dto.setName(project.getName());
+			dto.setFrom(project.getFrom());
+			dto.setTo(project.getTo());
+			dto.setDescription(project.getDescription());
+			dto.setOrganisation(name(project.getOrganisationId()));
+			return dto;
+		}).collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Projects> getAllProjects() {
-		return projectsManager.findAll();
+	public List<ProjectResponseDto> getAllProjects() {
+		List<Projects> projects =  projectsManager.findAll();
+		return projects.stream().map((project) -> {
+			ProjectResponseDto dto = new ProjectResponseDto();
+			dto.setId(project.getId());
+			dto.setName(project.getName());
+			dto.setFrom(project.getFrom());
+			dto.setTo(project.getTo());
+			dto.setDescription(project.getDescription());
+			dto.setOrganisation(name(project.getOrganisationId()));
+			return dto;
+		}).collect(Collectors.toList());
 	}
 
 	@Override
@@ -62,6 +89,12 @@ public class ProjectsServiceImpl implements ProjectsService{
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	private String name(int organisationId) {
+		Optional<Experience> entity = experienceManager.findById(organisationId);
+		if(entity.isEmpty()) return null;
+		return entity.get().getClient();
 	}
 	
 }

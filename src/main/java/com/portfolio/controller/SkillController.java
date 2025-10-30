@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,25 +20,26 @@ import com.portfolio.service.SkillsService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/skills")
 public class SkillController {
 
 	@Autowired
 	private SkillsService skillService;
 
-	@PostMapping("/addSkill")
+	@PostMapping("/add")
 	public ResponseEntity<Skill> addSkill(@RequestParam String name, @RequestParam int categoryId) {
 		Skill skill = skillService.addSkill(name, categoryId);
 		return ResponseEntity.ok(skill);
 	}
 
-	@PutMapping("/updateSkill/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<Skill> updateSkill(@PathVariable int id, @RequestParam String name,
 			@RequestParam int categoryId) {
 		Skill skill = skillService.updateSkill(id, name, categoryId);
 		return ResponseEntity.ok(skill);
 	}
 
-	@DeleteMapping("/deleteSkill/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteSkill(@PathVariable int id) {
 		if (skillService.deleteSkill(id)) {
 			return ResponseEntity.ok("Skill deleted successfully");
@@ -46,12 +48,12 @@ public class SkillController {
 		}
 	}
 
-	@GetMapping("/getAllSkills")
+	@GetMapping("/view")
 	public ResponseEntity<List<SkillsResponseDto>> getAllSkills() {
 		return ResponseEntity.ok(skillService.getAllSkills());
 	}
 
-	@GetMapping("/getSkillsByCategory/{categoryId}")
+	@GetMapping("/view/{categoryId}")
 	public ResponseEntity<List<Skill>> getSkillsByCategory(@PathVariable int categoryId) {
 		return ResponseEntity.ok(skillService.getSkillsByCategory(categoryId));
 	}
